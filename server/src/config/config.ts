@@ -10,12 +10,18 @@ const config = {
       port: 5000,
     },
     cors: corsOptions,
+    mongoDB: {
+      uri: process.env.MONGO_URI,
+    },
   },
   production: {
     server: {
       port: process.env.PORT,
     },
     cors: corsOptions,
+    mongoDB: {
+      uri: process.env.MONGO_URI,
+    },
   },
 };
 

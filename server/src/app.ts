@@ -2,6 +2,10 @@ import express from "express";
 import cors from "cors";
 import config from "@config/config";
 
+import connectToDatabase from "./db/db";
+
+connectToDatabase();
+
 const app = express();
 
 // Initial middleware
