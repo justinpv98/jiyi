@@ -16,5 +16,6 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "include": ["src", "constants/tokens.ts"]
+  "include": ["src", "constants/tokens.ts", "craco.config.js"],
+  "extends": "./tsconfig.paths.json"
 }
