@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 import config from "@config/config";
+import logger from "@logger/index";
 
 const mongoURI = config.mongoDB.uri;
 
@@ -11,9 +12,9 @@ async function connectToDatabase() {
       useUnifiedTopology: true,
     });
 
-    console.log(`MongoDB connected: ${connect.connection.host}`);
+    logger.info(`MongoDB connected: ${connect.connection.host}`);
   } catch (error) {
-    console.log(error);
+    logger.error(error);
     process.exit(1);
   }
 }

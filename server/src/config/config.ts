@@ -6,21 +6,39 @@ dotenv.config();
 
 const config = {
   development: {
+    client: {
+      URL: "localhost:3000",
+    },
     server: {
       port: 5000,
     },
     cors: corsOptions,
+    crypto: {
+      saltRounds: process.env.SALT_ROUNDS
+    },
     mongoDB: {
       uri: process.env.MONGO_URI,
     },
+    jwt: {
+      secret: process.env.JWT_SECRET_DEV,
+    },
   },
   production: {
+    client: {
+      URL: process.env.CLIENT_URL,
+    },
     server: {
       port: process.env.PORT,
     },
     cors: corsOptions,
+    crypto: {
+      saltRounds: process.env.SALT_ROUNDS
+    },
     mongoDB: {
       uri: process.env.MONGO_URI,
+    },
+    jwt: {
+      secret: process.env.JWT_SECRET_PROD,
     },
   },
 };
