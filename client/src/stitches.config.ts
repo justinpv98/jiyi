@@ -26,6 +26,7 @@ export const { styled, css, globalCss, theme, createTheme } = createStitches({
     borderStyles: {},
     borderWidths: {},
     letterSpacings: {},
+    zIndices: tokens.zIndices
   },
   media: {
     sm: `(min-width: ${tokens.breakpoints.sm})`,
@@ -98,6 +99,7 @@ export const globalStyles = globalCss({
     textRendering: "optimizeLegibility",
     textSizeAdjust: "100%",
     color: "$onBackground",
+    "-webkit-tap-highlight-color": "transparent"
   },
   body: {
     fontFamily: "$nunito",

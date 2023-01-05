@@ -95,7 +95,7 @@ export const Floater = styled("div", {
   fontSize: "$075",
   fontWeight: "$bold",
   borderRadius: "$round",
-  zIndex: "500",
+  zIndex: "$floating",
   padding: "$050 $100 $050 $100",
   transform: "translateY(0)",
   animation: `${bob} 8s 4s ease-in-out infinite`,

@@ -8,7 +8,7 @@ export const Header = styled("header", {
   width: "100%",
   position: "absolute",
   top: "$200",
-  zIndex: "1000",
+  zIndex: "$header",
 
   variants: {
     floating: {

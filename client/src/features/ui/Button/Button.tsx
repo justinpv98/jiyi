@@ -3,6 +3,7 @@ import { styled } from "@/stitches.config";
 
 const Button = styled("button", {
   display: "inline-flex",
+  justifyContent: "center",
   alignItems: "center",
   gap: "$025",
   cursor: "pointer",
@@ -20,6 +21,10 @@ const Button = styled("button", {
   fontSize: "$100",
   fontWeight: "$bold",
   userSelect: "none",
+
+  "&:disabled": {
+    cursor: "initial"
+  },
 
   variants: {
     color: {
@@ -44,7 +49,38 @@ const Button = styled("button", {
         background: "$accent",
         color: "$onAccent",
       },
+      disabled: {
+        background: "$disabled",
+        color: "$onDisabled"
+      },
+      successPrimary: {
+        background: "$success",
+        color: "$onSuccess"
+      },
+      errorPrimary: {
+        background: "$error",
+        color: "$onError"
+      }
     },
+    size: {
+      lg: {
+        fontSize: "$112",
+      },
+    },
+    icon: {
+      true: {
+        background: "transparent",
+        padding: ".625rem",
+        minWidth: "44px",
+        minHeight: "44px",
+        color: "$onBackground",
+
+        "&:disabled": {
+          color: "$onDisabled",
+          backgroundColor: "transparent"
+        },
+      }
+    }
   },
 });
 

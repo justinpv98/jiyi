@@ -31,7 +31,7 @@ export default function Home() {
               frustration.
             </styled.HeroCopy>
             {/* @ts-ignore */}
-            <Button color="primaryGradient" as={Link} to="/test">
+            <Button color="primaryGradient" as={Link} to="/register">
               Start Learning
             </Button>
           </styled.HeroSection>
@@ -137,7 +137,7 @@ export default function Home() {
           Remember anything with Jiyi!
         </styled.FooterHeading>
         {/* @ts-ignore */}
-        <Button as={Link} to="/" color="primaryGradient">
+        <Button as={Link} to="/register" color="primaryGradient">
           Start Learning
         </Button>
       </styled.BottomCTASection>
