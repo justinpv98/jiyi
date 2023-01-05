@@ -6,7 +6,7 @@ import User from "@models/UserModel";
 
 const register = asyncHandler(async (req: Request, res: Response) => {
   const { email, password, topic, goal } = req.body;
-  const language = (topic === "languages" && req.body?.language);
+  const language = topic === "languages" && req.body?.language;
 
   // Check if a user with the given email already exists
   const existingUser = await User.findOne({ email });
@@ -29,15 +29,15 @@ const register = asyncHandler(async (req: Request, res: Response) => {
     });
 
     if (newUser) {
-      // issue a JWT for the newly created user
+      // issue a JWT for the newly created user and send it via cookies
       const jwt = await newUser.issueJwt();
+      res.cookie("x-auth", jwt, { httpOnly: true });
       res.status(201).json({
         id: newUser._id,
         email: newUser.email,
         goal: newUser.goal,
         topics: newUser.topics,
         languages: newUser.languages,
-        token: jwt,
       });
     } else {
       res.status(400);
@@ -63,12 +63,12 @@ const login = asyncHandler(async (req: Request, res: Response) => {
 
   if (isValidPassword) {
     // If the provided password is correct, issue a JWT for the user and send
-    const jwt: string = await existingUser.issueJwt();
+    const jwt = await existingUser.issueJwt();
+    res.cookie("x-auth", jwt, { httpOnly: true });
 
     res.status(200).json({
       id: existingUser._id,
       email: existingUser.email,
-      token: jwt,
     });
   } else {
     // If the provided password is incorrect, throw an error
@@ -80,7 +80,7 @@ const login = asyncHandler(async (req: Request, res: Response) => {
 const successfulAuth = asyncHandler(async (req: Request, res: Response) => {
   // Issue a JWT for the authenticated user, set as a cookie, and redirect.
   const token = req.user.issueJwt();
-  res.cookie("x-auth", token);
+  res.cookie("x-auth", token, { httpOnly: true });
   res.redirect(config.client.url);
 });
 

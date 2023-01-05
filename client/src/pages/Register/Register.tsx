@@ -24,7 +24,6 @@ export type Data = {
 };
 
 export default function Register() {
-
   // Use the useState hook to store the current step of the form
   // The final step is the fourth one (index 3)
   const [step, setStep] = useState(0);
@@ -39,15 +38,16 @@ export default function Register() {
   });
 
   function goPreviousStep(n = 1) {
-
-    // If the current step is not the first one, go back to the previous step
-    if (step > 0) {
+    // If the topic isn't languages, skip over step 2 (index 1).
+    // Else if the current step is not the first one, go back to the previous step
+    if (formData.topic !== "languages" && step == 2) {
+      setStep(step - 2);
+    } else if (step > 0) {
       setStep(step - n);
     }
   }
 
   function goNextStep(n = 1) {
-
     // If the next step is not the final one, go to the next step
     if (n !== FINAL_STEP) {
       setStep(step + n);
@@ -55,7 +55,6 @@ export default function Register() {
   }
 
   const onSubmitStep = (data: Data) => {
-
     // Update the form data with the data from the step
     setFormData({ ...formData, ...data });
 
@@ -65,7 +64,6 @@ export default function Register() {
   };
 
   const onSubmitForm = async (data: Data) => {
-
     // Submit merged form data and await response
     const requestData = { ...formData, ...data };
     const response = await axios.post(
