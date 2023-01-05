@@ -5,7 +5,9 @@ import * as styled from "./Navbar.styles";
 import { useScrollPositionY } from "@/hooks/useScroll/useScrollPosition";
 
 import { ReactComponent as Logo } from "@/assets/logo.svg";
-import Button from "../Button/Button";
+import Button from "@/features/ui/Button/Button";
+import LoginModal from "@/features/auth/LoginModal";
+
 
 export default function Navbar() {
   const scrollPosition = useScrollPositionY();
@@ -23,12 +25,9 @@ export default function Navbar() {
           <Logo />
         </styled.LogoLink>
         <styled.ButtonContainer>
+          <LoginModal />
           {/* @ts-ignore */}
-          <Button color="tertiary" as={Link}>
-            Log In
-          </Button>
-          {/* @ts-ignore */}
-          <Button color={isMainCTA ? "primary" : "secondary"} as={Link}>
+          <Button color={isMainCTA ? "primary" : "secondary"} as={Link} to="/register">
             Start Learning
           </Button>
         </styled.ButtonContainer>
