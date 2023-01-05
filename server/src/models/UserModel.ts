@@ -2,7 +2,7 @@ import { model, Model, Document, Schema } from "mongoose";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import config from "@config/config";
-
+import { languages } from "@constants/constants";
 
 export interface IUser {
   _id: Schema.Types.ObjectId;
@@ -15,6 +15,9 @@ export interface IUser {
   providerAccessToken?: string;
   providerRefreshToken?: string;
   emailVerified?: boolean;
+  topics: string[];
+  languages?: string[];
+  goal: string;
   isNew: boolean;
   isModified(query: string): boolean;
 }
@@ -38,7 +41,7 @@ const userSchema = new Schema<IUser, UserModel, IUserMethods>(
     username: {
       type: String,
       unique: true,
-      required: false,
+      sparse: true,
       lowercase: true,
       minlength: 4,
       maxlength: 30,
@@ -73,6 +76,19 @@ const userSchema = new Schema<IUser, UserModel, IUserMethods>(
       type: Boolean,
       required: false,
     },
+    topics: {
+      type: [String],
+      enum: ["languages", "arts-and-sciences", "other"],
+      required: true,
+    },
+    languages: {
+      type: [String],
+      enum: languages,
+    },
+    goal: {
+      type: String,
+      required: true,
+    },
   },
   {
     timestamps: true,
@@ -88,16 +104,16 @@ const userSchema = new Schema<IUser, UserModel, IUserMethods>(
   }
 );
 
-userSchema.method('comparePassword', async function comparePassword (
-  this: IUser,
-  password: string
-) {
-  const user = this;
+userSchema.method(
+  "comparePassword",
+  async function comparePassword(this: IUser, password: string) {
+    const user = this;
 
-  return bcrypt.compare(password, user.password);
-})
+    return bcrypt.compare(password, user.password);
+  }
+);
 
-userSchema.method('issueJwt', async function issueJwt(){
+userSchema.method("issueJwt", async function issueJwt() {
   const user = this;
   const payload = { _id: user._id };
   const expiresIn = "1d";
@@ -107,14 +123,13 @@ userSchema.method('issueJwt', async function issueJwt(){
   });
 
   return signedToken;
-})
-
+});
 
 // Use a middleware function to hash the password before saving the user to the database
 userSchema.pre("save", async function (this: IUser, next) {
   // Only hash the password if the user is new or the password has been modified
   if (this.isNew || this.isModified("password")) {
-    const saltRounds = Number(config.crypto.saltRounds)
+    const saltRounds = Number(config.crypto.saltRounds);
     const salt = await bcrypt.genSalt(saltRounds);
     const hash = await bcrypt.hash(this.password, salt);
 

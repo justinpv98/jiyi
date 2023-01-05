@@ -5,7 +5,8 @@ import config from "@config/config";
 import User from "@models/UserModel";
 
 const register = asyncHandler(async (req: Request, res: Response) => {
-  const { email, password } = req.body;
+  const { email, password, topic, goal } = req.body;
+  const language = (topic === "languages" && req.body?.language);
 
   // Check if a user with the given email already exists
   const existingUser = await User.findOne({ email });
@@ -19,7 +20,13 @@ const register = asyncHandler(async (req: Request, res: Response) => {
     // If a user with the given email does not already exist,
     // create a new user with the provided email and password
 
-    const newUser = await User.create({ email, password });
+    const newUser = await User.create({
+      email,
+      password,
+      topics: [topic],
+      goal,
+      languages: language ? [language] : [],
+    });
 
     if (newUser) {
       // issue a JWT for the newly created user
@@ -27,6 +34,9 @@ const register = asyncHandler(async (req: Request, res: Response) => {
       res.status(201).json({
         id: newUser._id,
         email: newUser.email,
+        goal: newUser.goal,
+        topics: newUser.topics,
+        languages: newUser.languages,
         token: jwt,
       });
     } else {
@@ -41,7 +51,7 @@ const login = asyncHandler(async (req: Request, res: Response) => {
 
   // Find the user with the provided email
 
-  const existingUser = await User.findOne({email});
+  const existingUser = await User.findOne({ email });
 
   if (!existingUser) {
     res.status(400);
