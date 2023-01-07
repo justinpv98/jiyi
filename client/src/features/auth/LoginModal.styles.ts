@@ -52,7 +52,7 @@ export const Content = styled(Dialog.Content, {
   },
 });
 
-export const ContentContainer = styled("div", {
+export const Form = styled("form", {
   display: "flex",
   flexDirection: "column",
   justifyContent: "center",

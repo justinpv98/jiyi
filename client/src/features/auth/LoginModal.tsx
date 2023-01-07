@@ -1,11 +1,29 @@
 import React from "react";
-import * as Dialog from "@radix-ui/react-dialog";
 import * as styled from "./LoginModal.styles";
+import { useForm } from "react-hook-form";
+import { LoginData } from "@/types/auth/auth";
+
+import useAuth from "@/hooks/useAuth/useAuth";
+
+import * as Dialog from "@radix-ui/react-dialog";
 import Button from "@/features/ui/Button/Button";
 import Icon from "@/features/ui/Icon/Icon";
 import { Input, InputContainer, Label } from "@/features/ui/Form/Input/Input";
 
 export default function LoginModal() {
+  const { login } = useAuth();
+
+  const {
+    handleSubmit,
+    formState: { errors },
+    register,
+  } = useForm<LoginData>();
+
+  function onSubmit(data: LoginData) {
+    login(data);
+    console.log();
+  }
+
   return (
     <Dialog.Root>
       <Dialog.Trigger asChild>
@@ -20,7 +38,7 @@ export default function LoginModal() {
       <Dialog.Portal>
         <styled.Overlay />
         <styled.Content>
-          <styled.ContentContainer>
+          <styled.Form onSubmit={handleSubmit(onSubmit)}>
             <div>
               <styled.Title>Log In</styled.Title>
               <styled.Description>
@@ -29,11 +47,21 @@ export default function LoginModal() {
             </div>
             <InputContainer>
               <Label htmlFor="email">Email</Label>
-              <Input id="email" placeholder="Email" required/>
+              <Input
+                id="email"
+                placeholder="Email"
+                {...register("email")}
+                required
+              />
             </InputContainer>
             <InputContainer>
               <Label htmlFor="password">Password</Label>
-              <Input id="password" placeholder="Password" required />
+              <Input
+                id="password"
+                {...register("password")}
+                placeholder="Password"
+                required
+              />
             </InputContainer>
             <div
               style={{
@@ -41,11 +69,9 @@ export default function LoginModal() {
                 marginTop: "2rem",
               }}
             >
-              <Dialog.Close asChild>
-                <Button color="primaryGradient" css={{ width: "100%" }}>
-                  Log In
-                </Button>
-              </Dialog.Close>
+              <Button color="primaryGradient" css={{ width: "100%" }}>
+                Log In
+              </Button>
             </div>
             <Dialog.Close asChild>
               <Button
@@ -56,7 +82,7 @@ export default function LoginModal() {
                 <Icon icon="x-mark" />
               </Button>
             </Dialog.Close>
-          </styled.ContentContainer>
+          </styled.Form>
         </styled.Content>
       </Dialog.Portal>
     </Dialog.Root>

@@ -1,7 +1,7 @@
 export const GOALS = [
-  { name: "Casual", numOfCards: "5" },
-  { name: "Regular", numOfCards: "10" },
-  { name: "Intense", numOfCards: "20" },
+  { name: "Casual", value: "casual", numOfCards: "5" },
+  { name: "Regular", value: "regular",numOfCards: "10" },
+  { name: "Intense", value: "intense", numOfCards: "20" },
 ];
 
 export const LANGUAGES = [

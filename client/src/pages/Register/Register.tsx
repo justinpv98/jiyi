@@ -1,7 +1,9 @@
-import React, { FormEvent, Fragment, MouseEventHandler } from "react";
-import axios from "axios";
+import React, { Fragment, useState } from "react";
 import * as styled from "./Register.styles";
-import { useState } from "react";
+import { RegisterData } from "@/types/auth/auth";
+
+import useAuth from "@/hooks/useAuth/useAuth";
+
 
 // Steps
 import Topics from "./Steps/Topics/Topics";
@@ -13,15 +15,6 @@ import CreateProfile from "./Steps/CreateProfile/CreateProfile";
 import Icon from "@/features/ui/Icon/Icon";
 import Button from "@/features/ui/Button/Button";
 import ProgressBar from "@/features/ui/ProgressBar/ProgressBar";
-
-// possible shape of the Data
-export type Data = {
-  topic?: string;
-  language?: string;
-  goal?: string;
-  email?: string;
-  password?: string;
-};
 
 export default function Register() {
   // Use the useState hook to store the current step of the form
@@ -36,6 +29,8 @@ export default function Register() {
     email: "",
     password: "",
   });
+
+  const { register } = useAuth();
 
   function goPreviousStep(n = 1) {
     // If the topic isn't languages, skip over step 2 (index 1).
@@ -54,7 +49,7 @@ export default function Register() {
     }
   }
 
-  const onSubmitStep = (data: Data) => {
+  const onSubmitStep = (data: RegisterData) => {
     // Update the form data with the data from the step
     setFormData({ ...formData, ...data });
 
@@ -63,15 +58,11 @@ export default function Register() {
     goNextStep(nextStep);
   };
 
-  const onSubmitForm = async (data: Data) => {
+  const onSubmitForm = async (data: RegisterData) => {
     // Submit merged form data and await response
     const requestData = { ...formData, ...data };
-    const response = await axios.post(
-      "http://localhost:5000/api/auth/register",
-      requestData
-    );
 
-    console.log(response);
+    register(requestData);
   };
 
   function renderStep() {
