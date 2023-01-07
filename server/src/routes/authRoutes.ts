@@ -1,5 +1,11 @@
 import { Router } from "express";
-import { register, login, successfulAuth } from "@controllers/authController";
+import {
+  register,
+  login,
+  logout,
+  successfulAuth,
+  handleRefreshToken,
+} from "@controllers/authController";
 import validateRequest from "@middleware/validateRequest";
 import config from "@config/config";
 import schemas from "@validation/index";
@@ -12,6 +18,10 @@ const router = Router();
 router.route("/register").post(validateRequest(registerSchema), register);
 
 router.route("/login").post(validateRequest(loginSchema), login);
+
+router.route("/logout").post(logout);
+
+router.route("/refresh").get(handleRefreshToken);
 
 router.route("/google").get(
   passport.authenticate("google-auth", {
