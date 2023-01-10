@@ -58,7 +58,7 @@ const userSchema = new Schema<IUser, UserModel, IUserMethods>(
     password: {
       type: String,
       minLength: 6,
-      maxLength: 55,
+      maxLength: 60,
       required: true,
     },
     name: String,

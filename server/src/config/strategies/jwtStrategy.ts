@@ -6,7 +6,7 @@ import extractCookie from "@utils/extractCookie";
 
 const options = {
   jwtFromRequest: extractCookie,
-  secretOrKey: config.jwt.secret,
+  secretOrKey: config.jwt.accessTokenSecret,
 };
 
 

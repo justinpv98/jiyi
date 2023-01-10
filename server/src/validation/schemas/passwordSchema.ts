@@ -1,6 +1,6 @@
 import Joi from "joi";
 
-const passwordSchema = Joi.string().min(6).max(55).required().messages({
+const passwordSchema = Joi.string().min(6).max(60).required().messages({
   "string.base": `Password should of the type 'text'`,
   "string.empty": `Password cannot be an empty field`,
   "string.min": `Password should have a minimum length of {#limit}`,

@@ -67,14 +67,14 @@ const login = asyncHandler(async (req: Request, res: Response) => {
   }
 
   // Compare the provided password with the user's hashed password
-  const isValidPassword = await existingUser.comparePassword(password);
+  const isValidPassword = await existingUser.comparePassword(password)
 
   if (isValidPassword) {
     // If the provided password is correct, issue JWTs for the user
     const token = await existingUser.issueJwt();
 
     // If the request does not contain a refresh token cookie, set the user's refresh token array as is
-    let newRefreshTokenArray = !cookies.refreshToken
+    let newRefreshTokenArray = !cookies?.refreshToken
       ? existingUser.refreshToken
       : existingUser.refreshToken.filter(
           (token) => token !== cookies.refreshToken
@@ -93,6 +93,7 @@ const login = asyncHandler(async (req: Request, res: Response) => {
       res.clearCookie("refreshToken", { httpOnly: true, secure: true});
     }
 
+
     // Update the user's list of refresh tokens
     existingUser.refreshToken = [...newRefreshTokenArray, token.refreshToken];
     const result = await existingUser.save();
@@ -100,10 +101,14 @@ const login = asyncHandler(async (req: Request, res: Response) => {
     res.cookie("accessToken", token.accessToken, {
       httpOnly: true,
       maxAge: 15 * 60 * 1000,
+      secure: true,
+      sameSite: 'none'
     });
     res.cookie("refreshToken", token.refreshToken, {
       httpOnly: true,
       maxAge: 30 * 24 * 60 * 60 * 1000,
+      secure: true,
+      sameSite: 'none'
     });
 
     res.status(200).json({

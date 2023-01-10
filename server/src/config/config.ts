@@ -39,7 +39,8 @@ const config = {
       uri: process.env.MONGO_URI,
     },
     jwt: {
-      secret: process.env.JWT_SECRET_PROD,
+      refreshTokenSecret: process.env.REFRESH_TOKEN_SECRET_DEV,
+      accessTokenSecret: process.env.ACCESS_TOKEN_SECRET_DEV
     },
   },
 };
