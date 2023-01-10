@@ -31,7 +31,7 @@ export const AuthProvider = ({ children }: Props) => {
 
   async function login(data: LoginData): Promise<void> {
     try {
-      const res = await axios.post(BASE_URL + "/login", data);
+      const res = await axios.post(BASE_URL + "/login", data, {withCredentials: true});
       dispatch({
         type: AuthActionTypes.LOGIN_SUCCESS,
         payload: res.data,

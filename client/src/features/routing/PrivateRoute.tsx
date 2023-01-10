@@ -1,5 +1,8 @@
+import { Fragment } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import withAuth from "../auth/hoc/withAuth";
+
+import Navbar from "../ui/Navbar/Navbar";
 
 type Props = {
   isAuth: boolean;
@@ -8,11 +11,11 @@ type Props = {
 };
 
 function PrivateRoute({ isAuth, redirectPath = "/", children }: Props) {
-    // prevents unauthorized users from seeing certain pages
+  // prevents unauthorized users from seeing certain pages
   if (!isAuth) {
     return <Navigate to={redirectPath} replace />;
   }
-  return children ? children : <Outlet />;
+  return <Fragment>{children ? children : <Outlet />}</Fragment>;
 }
 
 export default withAuth(PrivateRoute);
