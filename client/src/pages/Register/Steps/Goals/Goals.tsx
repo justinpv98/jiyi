@@ -1,12 +1,12 @@
 import React, {useState} from "react";
 import * as styled from "../../Register.styles";
+import { RegisterData } from "@/types/auth/auth";
 import { useForm } from "react-hook-form";
-import Button from "@/features/ui/Button/Button";
-import { Data } from "../../Register";
+
 import { GOALS } from "@/constants/profile";
 
 type Props = {
-  onSubmitStep(data: Data): void;
+  onSubmitStep(data: RegisterData): void;
 };
 
 export default function Goals({ onSubmitStep }: Props) {
@@ -38,7 +38,7 @@ export default function Goals({ onSubmitStep }: Props) {
                 type="radio"
                 id={goal.name}
                 {...register("goal")}
-                value={goal.name}
+                value={goal.value}
                 onChange={onChange}
                 required
               />

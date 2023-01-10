@@ -99,7 +99,11 @@ export const globalStyles = globalCss({
     textRendering: "optimizeLegibility",
     textSizeAdjust: "100%",
     color: "$onBackground",
-    "-webkit-tap-highlight-color": "transparent"
+    "-webkit-tap-highlight-color": "transparent",
+
+    "@lg": {
+      "&::-webkit-scrollbar": { "-webkit-appearance": "none" }
+    }
   },
   body: {
     fontFamily: "$nunito",

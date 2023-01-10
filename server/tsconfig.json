@@ -11,6 +11,7 @@
         "@routes/*": ["src/routes/*"],
         "@models/*": ["src/models/*"],
         "@controllers/*": ["src/controllers/*"],
+        "@utils/*": ["src/utils/*"],
         "@validation/*": ["src/validation/*"]
       },
       "typeRoots": ["./node_modules/@types", "./src/types"],

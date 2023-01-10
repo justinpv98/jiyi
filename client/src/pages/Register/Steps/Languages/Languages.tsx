@@ -1,12 +1,14 @@
 import React, {useState} from "react";
 import * as styled from "../../Register.styles";
+
 import { useForm } from "react-hook-form";
-import Flag from "@/features/ui/Flag/Flag";
-import { Data } from "../../Register";
+
+import { RegisterData } from "@/types/auth/auth";
 import { LANGUAGES } from "@/constants/profile";
+import Flag from "@/features/ui/Flag/Flag";
 
 type Props = {
-  onSubmitStep(data: Data): void;
+  onSubmitStep(data: RegisterData): void;
 };
 
 export default function Languages({ onSubmitStep }: Props) {

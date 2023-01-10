@@ -10,6 +10,7 @@ export interface IUser {
   username: string;
   password: string;
   name: string;
+  refreshToken: string[];
   provider: string;
   providerId?: string;
   providerAccessToken?: string;
@@ -23,7 +24,7 @@ export interface IUser {
 }
 
 export interface IUserMethods {
-  issueJwt(): Promise<string>;
+  issueJwt(): Promise<{ accessToken: string; refreshToken: string }>;
   comparePassword(password: string): Promise<boolean>;
 }
 
@@ -57,7 +58,7 @@ const userSchema = new Schema<IUser, UserModel, IUserMethods>(
     password: {
       type: String,
       minLength: 6,
-      maxLength: 55,
+      maxLength: 60,
       required: true,
     },
     name: String,
@@ -66,6 +67,7 @@ const userSchema = new Schema<IUser, UserModel, IUserMethods>(
       default: "password",
       enum: ["password", "facebook", "google"],
     },
+    refreshToken: [String],
     providerId: {
       type: String,
       default: null,
@@ -116,13 +118,19 @@ userSchema.method(
 userSchema.method("issueJwt", async function issueJwt() {
   const user = this;
   const payload = { _id: user._id };
-  const expiresIn = "1d";
+  const accessTokenExpiresIn = "15m";
 
-  const signedToken = await jwt.sign(payload, config.jwt.secret, {
-    expiresIn: expiresIn,
+  const accessToken = await jwt.sign(payload, config.jwt.accessTokenSecret, {
+    expiresIn: accessTokenExpiresIn,
   });
 
-  return signedToken;
+  const refreshTokenExpiresIn = "30d";
+
+  const refreshToken = await jwt.sign(payload, config.jwt.refreshTokenSecret, {
+    expiresIn: refreshTokenExpiresIn,
+  });
+
+  return { accessToken, refreshToken };
 });
 
 // Use a middleware function to hash the password before saving the user to the database

@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
 import * as styled from "./Home.styles";
 
-import Navbar from "@/features/ui/Navbar/Navbar";
+import Header from "@/features/ui/Header/Header";
 import Button from "@/features/ui/Button/Button";
 import Card from "@/features/ui/Card/Card";
 import Footer from "@/features/ui/Footer/Footer";
@@ -18,7 +18,7 @@ import Laptop from "@/assets/images/landing/laptop.webp";
 export default function Home() {
   return (
     <Fragment>
-      <Navbar />
+      <Header />
       <styled.Hero>
         <styled.HeroContainer>
           <styled.HeroSection>

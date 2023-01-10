@@ -6,8 +6,6 @@ import User from "@models/UserModel";
 dotenv.config()
 
 
-console.log(process.env.CLIENT_ID)
-
 
 const options = {
   clientID: process.env.GOOGLE_CLIENT_ID,

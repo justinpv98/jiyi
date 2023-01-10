@@ -1,37 +1,27 @@
-import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
+import React from "react";
+import { NavLink } from "react-router-dom";
 import * as styled from "./Navbar.styles";
 
-import { useScrollPositionY } from "@/hooks/useScroll/useScrollPosition";
+// Routes
+import navRoutes from "@/constants/navRoutes";
 
-import { ReactComponent as Logo } from "@/assets/logo.svg";
-import Button from "@/features/ui/Button/Button";
-import LoginModal from "@/features/auth/LoginModal";
-
+// Components
+import Icon from "../Icon/Icon";
 
 export default function Navbar() {
-  const scrollPosition = useScrollPositionY();
-
-  useEffect(() => {}, [scrollPosition]);
-
-  const isFloating = scrollPosition > 116 - 56 - 32;
-  const isMainCTA = scrollPosition > 600 && scrollPosition < 1200;
-
   return (
-    <styled.Header floating={isFloating}>
-      <styled.Nav>
-        <styled.LogoLink href="/">
-          <span className="sr-only">Jiyi Home</span>
-          <Logo />
-        </styled.LogoLink>
-        <styled.ButtonContainer>
-          <LoginModal />
-          {/* @ts-ignore */}
-          <Button color={isMainCTA ? "primary" : "secondary"} as={Link} to="/register">
-            Start Learning
-          </Button>
-        </styled.ButtonContainer>
-      </styled.Nav>
-    </styled.Header>
+    <styled.Nav>
+      <styled.NavContainer>
+        <styled.Logo />
+        {navRoutes.map((route) => {
+          return (
+            <styled.NavLink as={NavLink} to={route.path} id={route.path}>
+              <Icon icon={route.icon} />
+              <span>{route.name}</span>
+            </styled.NavLink>
+          );
+        })}
+      </styled.NavContainer>
+    </styled.Nav>
   );
 }
